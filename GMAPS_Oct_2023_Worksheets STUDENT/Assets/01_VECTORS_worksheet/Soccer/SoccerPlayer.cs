@@ -53,13 +53,17 @@ public class SoccerPlayer : MonoBehaviour
 
     void DrawVectors()
     {
-        foreach (SoccerPlayer other in OtherPlayers)
+        if (IsCaptain)
         {
-            Vector3 dir = new Vector3(other.transform.position.x - transform.position.x, other.transform.position.y - transform.position.y,
-                other.transform.position.z - transform.position.z);
-            Debug.DrawRay(transform.position, dir, Color.black);
-            
+            foreach (SoccerPlayer other in OtherPlayers)
+            {
+                Vector3 dir = new Vector3(other.transform.position.x - transform.position.x, other.transform.position.y - transform.position.y,
+                    other.transform.position.z - transform.position.z);
+                Debug.DrawRay(transform.position, dir, Color.black);
+
+            }
         }
+        
     }
 
     void Update()
