@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     public bool IsCaptain = true;
     public Player OtherPlayer;
 
+    Vector3 captain;
+    Vector3 player;
+
     float Magnitude(Vector3 vector)
     {
         float squareX = vector.x * vector.x;
@@ -35,28 +38,40 @@ public class Player : MonoBehaviour
         return dot;
     }
 
-    float findAngle(float dot, float mag1, float mag2)
+    float FindAngle(float dot)
     {
 
-        double angle = (Mathf.Acos(dot)/ (mag1 * mag2)) * Mathf.Rad2Deg;
+        double angle = (Mathf.Acos(dot)) * Mathf.Rad2Deg;
         return (float)angle;
         
     }
 
     float AngleToPlayer()
     {
-        Vector3 captain = transform.position;
+        //get the position of the captain 
+        captain = transform.position;
 
-        Vector3 player = OtherPlayer.transform.position;
-        Vector3 vectorForward = Vector3.forward;
+        //get the position of the player
+        player = OtherPlayer.transform.position;
+
+        // Calculate the forward vector of the captain
+        Vector3 vectorForward = transform.forward;
+
+        // Calculate the vector from the captain to the player (vector subtration)
         Vector3 vectorToPlayer = new Vector3(player.x - captain.x, player.y - captain.y, player.z - captain.z);
-        float magForward = Magnitude(vectorForward);
-        float magPlayer = Magnitude(vectorToPlayer);
-        vectorForward = Normalise(vectorForward);
+
+        // Visualize the vector from the captain to the player with a red arrow
+        DebugExtension.DebugArrow(captain, vectorToPlayer, Color.red);
+
+        // Normalize the vectors to ensure they have a length of 1
+        vectorForward = Normalise(vectorForward); 
         vectorToPlayer = Normalise(vectorToPlayer);
+
+        // Calculate the dot product between the forward vector and the vector to the player
         float dot = Dot(vectorForward, vectorToPlayer);
 
-        float angle = findAngle(dot, magForward, magPlayer);
+        // Calculate the angle between the two normalized vectors
+        float angle = FindAngle(dot);
 
         // Steps to calculate the angle between the direction Captain is facing and 
         // the direction from Captain to Other
@@ -83,14 +98,16 @@ public class Player : MonoBehaviour
         // 2. Draw the arrow to represent visually the vector AB
         //
 
-        // Your code here
+
 
         // B
         // Steps to draw an arrow that represents which direction Captain is facing
         // 1. Find which vector to draw as an arrow
         //    1.1 The transform.forward vector of Captain
         // 2. Draw the arrow to represent visually the the transform.forward vector of Captain
+
         DebugExtension.DebugArrow(transform.position, transform.forward, Color.blue);
+        
 
         // CALCULATING THE ANGLE
 
@@ -109,16 +126,11 @@ public class Player : MonoBehaviour
         {
 
 
-
-
             float angle = AngleToPlayer();
             Debug.Log(angle);
-            Vector3 cap = transform.position;
-            Vector3 player = OtherPlayer.transform.position;
-            Vector3 vectorDirection = new Vector3(player.x - cap.x, player.y - cap.y, player.z - cap.z);
-            DebugExtension.DebugArrow(cap, vectorDirection, Color.red);
+            
             
         }
-        DebugExtension.DebugArrow(transform.position, transform.forward, Color.blue);
+       
     }
 }
