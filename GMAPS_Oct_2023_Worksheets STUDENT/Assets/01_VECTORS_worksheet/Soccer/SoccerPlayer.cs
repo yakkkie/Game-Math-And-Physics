@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-using Unity.VisualScripting.FullSerializer;
+using Unity;
+    
+
 
 public class SoccerPlayer : MonoBehaviour
 {
@@ -16,6 +16,11 @@ public class SoccerPlayer : MonoBehaviour
     private void Start()
     {
         OtherPlayers = FindObjectsOfType<SoccerPlayer>().Where(t => t != this).ToArray();
+
+        if(IsCaptain)
+        {
+            FindMinimum();
+        }
     }
 
     float Magnitude(Vector3 vector)
@@ -44,17 +49,36 @@ public class SoccerPlayer : MonoBehaviour
         return dot;
     }
 
-    //SoccerPlayer FindClosestPlayerDot()
-    //{
-    //    SoccerPlayer closest = null;
+    SoccerPlayer FindClosestPlayerDot()
+    {
+        SoccerPlayer closest = null;
 
-    //    return closest;
-    //}
+        float minAngle = 180f;
+
+        for (int i = 0; i < OtherPlayers.Length; i++)
+        {
+            Vector3 toPlayer = OtherPlayers[i].transform.position - transform.forward;
+            toPlayer = Normalise(toPlayer);
+            float dot = Dot(toPlayer, transform.forward);
+            float angle = Mathf.Acos(dot);
+            angle = angle * Mathf.Rad2Deg;
+
+            if(angle < minAngle)
+            {
+                minAngle = angle;
+                closest = OtherPlayers[i];
+            }
+
+
+        }
+
+
+        return closest;
+    }
 
     void DrawVectors()
     {
-        if (IsCaptain)
-        {
+     
             foreach (SoccerPlayer other in OtherPlayers)
             {
                 Vector3 dir = new Vector3(other.transform.position.x - transform.position.x, other.transform.position.y - transform.position.y,
@@ -62,7 +86,7 @@ public class SoccerPlayer : MonoBehaviour
                 Debug.DrawRay(transform.position, dir, Color.black);
 
             }
-        }
+        
         
     }
 
@@ -73,10 +97,42 @@ public class SoccerPlayer : MonoBehaviour
 
         if (IsCaptain)
         {
+            DrawVectors();
             angle += Input.GetAxis("Horizontal") * rotationSpeed;
             transform.localRotation = Quaternion.AngleAxis(angle, Vector3.up);
             Debug.DrawRay(transform.position, transform.forward * 10f, Color.red);
+
+            SoccerPlayer targetPlayer = FindClosestPlayerDot();
+            targetPlayer.GetComponent<Renderer>().material.color = Color.green;
+
+            foreach (SoccerPlayer other in OtherPlayers.Where(t => t != targetPlayer))
+            {
+                other.GetComponent<Renderer>().material.color = Color.white;
+            }
+            
         }
+    }
+
+    void FindMinimum()
+    {
+        float lowestHeight = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            float height = UnityEngine.Random.Range(1f, 200f);
+            Debug.Log(height);
+
+            if (lowestHeight == 0)
+            {
+                lowestHeight = height;
+            }
+            if(height < lowestHeight)
+            {
+                lowestHeight = height;
+            }
+
+
+        }
+        Debug.Log("The minimum height is "+ lowestHeight);
     }
 }
 
