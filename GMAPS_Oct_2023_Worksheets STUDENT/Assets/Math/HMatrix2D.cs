@@ -103,10 +103,6 @@ public class HMatrix2D
                 {
                     result.y += right.y * left.entries[y, x];
                 }
-                if(y == 2)
-                {
-                    result.h += right.h * left.entries[y, x];
-                }
             }
         }
         return result;
@@ -132,7 +128,7 @@ public class HMatrix2D
                 */
             left.entries[0, 0] * right.entries[0, 0] + left.entries[0, 1] * right.entries[1, 0] + left.entries[0, 2] * right.entries[2, 0],
             left.entries[0, 0] * right.entries[0, 1] + left.entries[0, 1] * right.entries[1, 1] + left.entries[0, 2] * right.entries[2, 1],
-            left.entries[0, 0] * right.entries[0,2] + left.entries[0, 1] * left.entries[1, 2] + left.entries[0, 2] * left.entries[2, 2],
+            left.entries[0, 0] * right.entries[0,2] + left.entries[0, 1] * right.entries[1, 2] + left.entries[0, 2] * right.entries[2, 2],
 
             left.entries[1,0] * right.entries[0,0] + left.entries[1, 1] * right.entries[1, 0] + left.entries[1,2] * right.entries[2,0],
             left.entries[1,0] * right.entries[0,1] + left.entries[1, 1] * right.entries[1, 1] + left.entries[1,2] * right.entries[2,1],
@@ -163,10 +159,10 @@ public class HMatrix2D
             }
         }
 
-        return true;
+        return left.entries == right.entries;
         // your code here
     }
-    
+
     public static bool operator !=(HMatrix2D left, HMatrix2D right)
     {
         for (int i = 0; i < left.entries.GetLength(1); i++)
@@ -179,14 +175,19 @@ public class HMatrix2D
                 }
             }
         }
+        return left.entries != right.entries;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if(!(obj is HMatrix2D))
+        {
+            return false;
+        }
+
         return true;
     }
-    
-    //public override bool Equals(object obj)
-    //{
-    //    // your code here
-    //}
-    //
+
     //public override int GetHashCode()
     //{
     //    // your code here
