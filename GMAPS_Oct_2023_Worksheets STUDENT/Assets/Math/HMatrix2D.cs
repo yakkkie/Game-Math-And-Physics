@@ -93,17 +93,31 @@ public class HMatrix2D
         HVector2D result = new HVector2D();
         for (int y = 0; y < left.entries.GetLength(0); y++)
         {
+            float z = 0;
             for (int x = 0; x < left.entries.GetLength(1); x++)
             {
-                if(y == 0)
+                if(x == 0)
                 {
-                    result.x += right.x * left.entries[y, x];
+                    z += right.x * left.entries[y, x];
                 }
-                if (y == 1)
+                if (x == 1)
                 {
-                    result.y += right.y * left.entries[y, x];
+                    z += right.y *  left.entries[y, x];
+                }
+                if(x == 2)
+                {
+                    z += right.h * left.entries[y, x];
                 }
             }
+            if(y == 0)
+            {
+                result.x = z;
+            }
+            if (y == 1)
+            {
+                result.y = z;
+            }
+
         }
         return result;
     }
@@ -214,22 +228,36 @@ public class HMatrix2D
         }
 
     }
-    
-    //public void setTranslationMat(float transX, float transY)
-    //{
-    //    // your code here
-    //}
-    //
-    //public void setRotationMat(float rotDeg)
-    //{
-    //    // your code here
-    //}
-    //
-    //public void setScalingMat(float scaleX, float scaleY)
-    //{
-    //    // your code here
-    //}
-    //
+
+    public void setTranslationMat(float transX, float transY)
+    {
+        setIdentity();
+        entries[0,2] = transX;
+        entries[1, 2] = transY;
+    }
+
+    public void setRotationMat(float rotDeg)
+    {
+        setIdentity();
+        float rad = Mathf.Rad2Deg * rotDeg;
+
+        float sin = Mathf.Sin(rad);
+        float cos = Mathf.Cos(rad);
+
+        entries[0,0] = cos;
+        entries[0,1] = -sin;
+        entries[1, 0] = sin;
+        entries[1, 1] = cos;
+
+    }
+
+    public void setScalingMat(float scaleX, float scaleY)
+    {
+        setIdentity();
+        entries[0,0] = scaleX;
+        entries[1,1] = scaleY;
+    }
+
     public void Print()
     {
         string result = "";
