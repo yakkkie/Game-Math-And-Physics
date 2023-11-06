@@ -239,15 +239,14 @@ public class HMatrix2D
     public void setRotationMat(float rotDeg)
     {
         setIdentity();
-        float rad = Mathf.Rad2Deg * rotDeg;
+        float rad = Mathf.Deg2Rad * rotDeg;
 
-        float sin = Mathf.Sin(rad);
-        float cos = Mathf.Cos(rad);
+        
 
-        entries[0,0] = cos;
-        entries[0,1] = -sin;
-        entries[1, 0] = sin;
-        entries[1, 1] = cos;
+        entries[0,0] = Mathf.Cos(rad);
+        entries[0,1] = -Mathf.Sin(rad);
+        entries[1, 0] = Mathf.Sin(rad);
+        entries[1, 1] = Mathf.Cos(rad);
 
     }
 

@@ -27,6 +27,8 @@ public class TestMatrix : MonoBehaviour
 
         mat = mat1 * mat2;
 
+        mat.setRotationMat(90);
+
         mat.Print();
 
         Debug.Log(vec2.x + "\t" + vec2.y);
