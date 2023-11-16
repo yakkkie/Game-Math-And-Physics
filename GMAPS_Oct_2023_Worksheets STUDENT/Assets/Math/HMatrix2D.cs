@@ -12,7 +12,14 @@ public class HMatrix2D
     
     public HMatrix2D()
     {
-        // your code here
+        for (int y = 0; y < entries.GetLength(1); y++)
+        {
+            for (int x = 0; x < entries.GetLength(0); x++)
+            {
+                entries[y, x] = x == y ? 1 : 0;
+            }
+        }
+
     }
 
     public HMatrix2D(float[,] multiArray)
