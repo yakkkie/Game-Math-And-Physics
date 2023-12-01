@@ -23,7 +23,7 @@ public class PoolCue : MonoBehaviour
             if (ball != null && ball.IsCollidingWith(startLinePos.x,startLinePos.y))
             {
 
-                drawnLine = lineFactory.GetLine(ballObject.transform.position, startLinePos, 5f, Color.red);
+                drawnLine = lineFactory.GetLine(ballObject.transform.position, startLinePos, 1f, Color.red);
                 drawnLine.EnableDrawing(true);
             }
         }

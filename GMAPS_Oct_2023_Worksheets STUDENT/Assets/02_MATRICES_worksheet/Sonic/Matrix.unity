@@ -267,6 +267,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sonic
       objectReference: {fileID: 0}
+    - target: {fileID: 3800616816674248108, guid: ce266d2ca2c685444ad1522285b0c6e7, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 3800616816674248109, guid: ce266d2ca2c685444ad1522285b0c6e7, type: 3}
       propertyPath: m_RootOrder
       value: 3
